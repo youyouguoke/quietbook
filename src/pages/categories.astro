@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ThemeCard from "../components/ThemeCard.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+
+const categoryFiles = import.meta.glob("../content/categories/*.md", { eager: true });
+const categories = Object.values(categoryFiles).map((cat: any) => ({
+  name: cat.frontmatter.name,
+  slug: cat.frontmatter.slug,
+  bookCount: (cat.frontmatter.books || []).length,
+}));
+
+const emojiMap: Record<string, string> = {
+  dinosaur: "🦖",
+  animal: "🐄",
+  space: "🚀",
+  "life-skills": "🧺",
+  learning: "📚",
+};
+---
+
+<Layout
+  title="Quiet Book Categories"
+  description="Browse quiet books by theme. Dinosaur, animal, space, life skills and learning printables for kids."
+>
+  <Header />
+
+  <main class="bg-surface pt-8 pb-20">
+    <section class="container-main">
+      <div class="py-12 md:py-16 text-center">
+        <h1 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">Categories</h1>
+        <p class="text-body-lg text-on-surface-variant mt-4 max-w-2xl mx-auto">
+          Explore free printable quiet books by theme. Find the perfect topic for your child.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map((c) => (
+          <ThemeCard {...c} emoji={emojiMap[c.slug] || "🌟"} />
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

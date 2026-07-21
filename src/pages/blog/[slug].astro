@@ -1,0 +1,61 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+
+export async function getStaticPaths() {
+  const blogFiles = import.meta.glob("../../content/blog/*.md", { eager: true });
+  return Object.values(blogFiles).map((post: any) => ({
+    params: { slug: post.frontmatter.slug },
+    props: {
+      post: post.frontmatter,
+      content: post.default,
+    },
+  }));
+}
+
+const { post, content: Content } = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.seo_description,
+  datePublished: post.published_at,
+  url: `${Astro.site?.origin || ""}/blog/${post.slug}`,
+};
+---
+
+<Layout
+  title={post.seo_title}
+  description={post.seo_description}
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <main class="bg-surface pt-8 pb-20">
+    <article class="container-main max-w-3xl">
+      <nav class="text-body-sm text-on-surface-variant py-4">
+        <a href="/" class="hover:text-primary transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/blog" class="hover:text-primary transition-colors">Blog</a>
+        <span class="mx-2">/</span>
+        <span class="text-on-surface">{post.title}</span>
+      </nav>
+
+      <h1 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface mt-8">
+        {post.title}
+      </h1>
+      <p class="text-body-md text-on-surface-variant mt-4">
+        Published on {post.published_at}
+      </p>
+
+      <div class="prose-body mt-10 text-on-surface">
+        <Content />
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

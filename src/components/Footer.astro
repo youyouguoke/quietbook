@@ -1,0 +1,60 @@
+---
+const footerLinks = {
+  "Explore": [
+    { label: "Quiet Books", href: "/quiet-books" },
+    { label: "Categories", href: "/categories" },
+    { label: "Skills", href: "/skills" },
+    { label: "Blog", href: "/blog" },
+  ],
+  "Popular Themes": [
+    { label: "Dinosaur", href: "/dinosaur-quiet-books" },
+    { label: "Animal", href: "/animal-quiet-books" },
+    { label: "Space", href: "/space-quiet-books" },
+    { label: "Life Skills", href: "/life-skills-quiet-books" },
+  ],
+  "Learn": [
+    { label: "What is a Quiet Book?", href: "/blog/what-is-a-quiet-book" },
+    { label: "Benefits", href: "/blog/benefits-of-quiet-books" },
+    { label: "How to Make One", href: "/blog/how-to-make-a-quiet-book" },
+  ],
+};
+---
+
+<footer class="bg-surface-container-low border-t border-outline-variant/30">
+  <div class="container-main py-12 md:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div class="space-y-4">
+        <p class="font-display text-headline-sm font-bold text-primary">Quiet Book Library</p>
+        <p class="text-body-md text-on-surface-variant max-w-xs">
+          Free printable quiet books for creative, hands-on learning at home or in the classroom.
+        </p>
+      </div>
+
+      {Object.entries(footerLinks).map(([title, links]) => (
+        <div class="space-y-4">
+          <p class="font-display text-body-md font-bold text-on-surface">{title}</p>
+          <ul class="space-y-2">
+            {links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-body-md text-on-surface-variant hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4 text-body-sm text-on-surface-variant">
+      <p>© 2026 Quiet Book Library. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="/terms" class="hover:text-primary transition-colors">Terms</a>
+        <a href="/privacy" class="hover:text-primary transition-colors">Privacy</a>
+      </div>
+    </div>
+  </div>
+</footer>

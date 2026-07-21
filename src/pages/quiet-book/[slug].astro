@@ -1,0 +1,150 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BookCard from "../../components/BookCard.astro";
+import FAQ from "../../components/FAQ.astro";
+import Button from "../../components/Button.astro";
+
+export async function getStaticPaths() {
+  const bookFiles = import.meta.glob("../../content/books/*.md", { eager: true });
+  return Object.values(bookFiles).map((book: any) => ({
+    params: { slug: book.frontmatter.slug },
+    props: {
+      book: book.frontmatter,
+      content: book.default,
+    },
+  }));
+}
+
+const { book, content: Content } = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: book.title,
+  description: book.seo_description,
+  image: book.cover,
+  learningResourceType: "Quiet Book",
+  educationalLevel: book.difficulty,
+  about: book.theme,
+  keywords: book.keywords,
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: (book.faq || []).map((f: any) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.answer,
+    },
+  })),
+};
+---
+
+<Layout
+  title={book.seo_title}
+  description={book.seo_description}
+  image={book.cover}
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <main class="bg-surface pt-8 pb-20">
+    <section class="container-main">
+      <!-- Breadcrumb -->
+      <nav class="text-body-sm text-on-surface-variant py-4">
+        <a href="/" class="hover:text-primary transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/quiet-books" class="hover:text-primary transition-colors">Quiet Books</a>
+        <span class="mx-2">/</span>
+        <span class="text-on-surface">{book.title}</span>
+      </nav>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start mt-8">
+        <!-- Cover -->
+        <div class="aspect-[4/3] bg-surface-container rounded-2xl soft-bloom overflow-hidden">
+          <img
+            src={book.cover}
+            alt={`${book.title} printable cover`}
+            class="w-full h-full object-cover"
+            onerror="this.src='/books/placeholders/cover.webp'"
+          />
+        </div>
+
+        <!-- Info -->
+        <div class="space-y-6">
+          <h1 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">
+            {book.title}
+          </h1>
+
+          <p class="text-body-lg text-on-surface-variant">
+            A printable activity book for {book.theme.toLowerCase()} lovers. {book.pages} pages of hands-on learning.
+          </p>
+
+          <!-- Quick Facts -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div class="bg-surface-container-low rounded-xl p-4">
+              <p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Theme</p>
+              <p class="font-display text-body-lg font-bold text-on-surface">{book.theme}</p>
+            </div>
+            <div class="bg-surface-container-low rounded-xl p-4">
+              <p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Difficulty</p>
+              <p class="font-display text-body-lg font-bold text-on-surface">{book.difficulty}</p>
+            </div>
+            <div class="bg-surface-container-low rounded-xl p-4">
+              <p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Pages</p>
+              <p class="font-display text-body-lg font-bold text-on-surface">{book.pages}</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            {book.skills.map((skill: string) => (
+              <span class="chip-primary">{skill}</span>
+            ))}
+          </div>
+
+          <div class="flex flex-wrap gap-4 pt-4">
+            <Button href={book.pdf} variant="primary" size="lg">
+              Download PDF
+            </Button>
+            <Button href={`/${book.theme.toLowerCase()}-quiet-books`} variant="secondary" size="lg">
+              More {book.theme} Books
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="max-w-3xl mt-16 prose-body text-on-surface">
+        <Content />
+      </div>
+
+      <!-- Materials -->
+      <div class="mt-12 bg-surface-container-low rounded-2xl p-6 md:p-8">
+        <h2 class="font-display text-headline-md font-bold text-on-surface mb-4">Materials Needed</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {book.materials.map((m: string) => (
+            <li class="flex items-center gap-3 text-body-md text-on-surface-variant">
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
+              {m}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mt-16 max-w-3xl">
+        <h2 class="font-display text-headline-md font-bold text-on-surface mb-6">Frequently Asked Questions</h2>
+        <FAQ items={book.faq || []} />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

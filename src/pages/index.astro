@@ -1,17 +1,168 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Button from "../components/Button.astro";
+import BookCard from "../components/BookCard.astro";
+import ThemeCard from "../components/ThemeCard.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 
+const bookFiles = import.meta.glob("../content/books/*.md", { eager: true });
+const books = Object.values(bookFiles).map((book: any) => ({
+  title: book.frontmatter.title,
+  slug: book.frontmatter.slug,
+  difficulty: book.frontmatter.difficulty,
+  skills: book.frontmatter.skills,
+  pages: book.frontmatter.pages,
+  cover: book.frontmatter.cover,
+  theme: book.frontmatter.theme,
+}));
+
+const featuredBooks = books.slice(0, 4);
+
+const categoryFiles = import.meta.glob("../content/categories/*.md", { eager: true });
+const categories = Object.values(categoryFiles).map((cat: any) => ({
+  name: cat.frontmatter.name,
+  slug: cat.frontmatter.slug,
+  bookCount: (cat.frontmatter.books || []).length,
+}));
+
+const emojiMap: Record<string, string> = {
+  dinosaur: "🦖",
+  animal: "🐄",
+  space: "🚀",
+  "life-skills": "🧺",
+  learning: "📚",
+};
+
+const themeCards = categories.map((c) => ({ ...c, emoji: emojiMap[c.slug] || "🌟" }));
+
+const skillFiles = import.meta.glob("../content/skills/*.md", { eager: true });
+const skills = Object.values(skillFiles).map((skill: any) => ({
+  name: skill.frontmatter.name,
+  slug: skill.frontmatter.slug,
+}));
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Free Printable Quiet Books for Kids"
+  description="Discover free printable quiet books for kids. Explore dinosaur, animal, space and educational quiet book activities designed for creative learning."
+>
+  <Header />
+
+  <main class="bg-surface">
+    <!-- Hero -->
+    <section class="relative bg-surface-container-low overflow-hidden">
+      <div class="container-main py-16 md:py-24 lg:py-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8">
+            <h1 class="font-display text-display-lg text-on-surface">
+              Free Printable Quiet Books for Creative Kids
+            </h1>
+            <p class="text-body-lg text-on-surface-variant max-w-xl">
+              Explore hands-on activity books designed for learning, creativity and independent play. No screens, just tactile fun.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <Button href="/quiet-books" variant="primary" size="lg">
+                Explore Quiet Books
+              </Button>
+              <Button href="/categories" variant="secondary" size="lg">
+                Browse Categories
+              </Button>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div class="aspect-[4/3] bg-surface-container rounded-2xl soft-bloom p-6 flex items-center justify-center">
+              <div class="text-center space-y-4">
+                <div class="text-8xl">📖</div>
+                <p class="font-display text-headline-md text-primary font-bold">
+                  Open a world of quiet play
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Themes -->
+    <section class="container-main section-gap pt-20">
+      <SectionHeader
+        title="Explore Quiet Books by Theme"
+        subtitle="Discover printable activity books organized by what your child loves most."
+        centered={true}
+      />
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        {themeCards.map((theme) => (
+          <ThemeCard {...theme} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Featured Books -->
+    <section class="container-main section-gap">
+      <div class="flex items-end justify-between">
+        <SectionHeader
+          title="Popular Quiet Books"
+          subtitle="Our favorite hands-on activity books to start with."
+        />
+        <Button href="/quiet-books" variant="ghost" size="sm" class="hidden md:inline-flex">
+          View all
+        </Button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+        {featuredBooks.map((book) => (
+          <BookCard {...book} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Browse by Skill -->
+    <section class="container-main section-gap">
+      <SectionHeader
+        title="Develop Skills Through Play"
+        subtitle="Every quiet book targets specific developmental skills."
+        centered={true}
+      />
+      <div class="flex flex-wrap justify-center gap-3 mt-10">
+        {skills.map((skill) => (
+          <a
+            href={`/${skill.slug}-quiet-books`}
+            class="chip-primary px-5 py-2 text-body-md hover:bg-primary hover:text-on-primary transition-colors"
+          >
+            {skill.name}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- What is a Quiet Book -->
+    <section class="container-main section-gap pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-surface-container-low rounded-2xl p-8 md:p-12">
+        <div class="space-y-6">
+          <h2 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">
+            What Is a Quiet Book?
+          </h2>
+          <div class="prose-body text-on-surface-variant space-y-4">
+            <p>
+              A quiet book is a printable interactive activity book designed for children to practice skills through hands-on play. It includes matching games, puzzles, sorting activities and reusable pieces that children can touch and move.
+            </p>
+            <p>
+              Quiet books are perfect for travel, waiting rooms, quiet afternoons and screen-free learning at home. Parents print the pages, cut the pieces and use Velcro dots to make every activity reusable.
+            </p>
+          </div>
+          <Button href="/blog/what-is-a-quiet-book" variant="secondary" size="md">
+            Learn more
+          </Button>
+        </div>
+        <div class="aspect-square bg-surface-container-lowest rounded-2xl soft-bloom flex items-center justify-center text-8xl">
+          🧩
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

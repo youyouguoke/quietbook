@@ -1,0 +1,101 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import BookCard from "../components/BookCard.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+
+const bookFiles = import.meta.glob("../content/books/*.md", { eager: true });
+const books = Object.values(bookFiles).map((book: any) => ({
+  title: book.frontmatter.title,
+  slug: book.frontmatter.slug,
+  difficulty: book.frontmatter.difficulty,
+  skills: book.frontmatter.skills,
+  pages: book.frontmatter.pages,
+  cover: book.frontmatter.cover,
+  theme: book.frontmatter.theme,
+}));
+
+const themes = [...new Set(books.map((b) => b.theme))];
+const difficulties = [...new Set(books.map((b) => b.difficulty))];
+const allSkills = [...new Set(books.flatMap((b) => b.skills))];
+---
+
+<Layout
+  title="All Quiet Books"
+  description="Browse all free printable quiet books. Filter by theme, difficulty and skill to find the perfect hands-on activity book."
+>
+  <Header />
+
+  <main class="bg-surface pt-8 pb-20">
+    <section class="container-main">
+      <div class="py-12 md:py-16 text-center">
+        <h1 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">
+          Quiet Books
+        </h1>
+        <p class="text-body-lg text-on-surface-variant mt-4 max-w-2xl mx-auto">
+          Discover printable activity books for kids. Filter by theme, difficulty or skill to find the right one.
+        </p>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-4 mb-10 p-4 bg-surface-container-low rounded-xl">
+        <select id="theme-filter" class="px-4 py-2 rounded-lg bg-surface border border-outline-variant focus:border-primary outline-none text-body-md">
+          <option value="">All Themes</option>
+          {themes.map((t) => (
+            <option value={t}>{t}</option>
+          ))}
+        </select>
+
+        <select id="difficulty-filter" class="px-4 py-2 rounded-lg bg-surface border border-outline-variant focus:border-primary outline-none text-body-md">
+          <option value="">All Difficulties</option>
+          {difficulties.map((d) => (
+            <option value={d}>{d}</option>
+          ))}
+        </select>
+
+        <select id="skill-filter" class="px-4 py-2 rounded-lg bg-surface border border-outline-variant focus:border-primary outline-none text-body-md">
+          <option value="">All Skills</option>
+          {allSkills.map((s) => (
+            <option value={s}>{s}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="book-grid">
+        {books.map((book) => (
+          <div class="book-item" data-theme={book.theme} data-difficulty={book.difficulty} data-skills={book.skills.join(",")}>
+            <BookCard {...book} />
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    const themeFilter = document.getElementById('theme-filter');
+    const difficultyFilter = document.getElementById('difficulty-filter');
+    const skillFilter = document.getElementById('skill-filter');
+    const items = document.querySelectorAll('.book-item');
+
+    function filter() {
+      const theme = themeFilter?.value || '';
+      const difficulty = difficultyFilter?.value || '';
+      const skill = skillFilter?.value || '';
+
+      items.forEach((item) => {
+        const t = item.getAttribute('data-theme') || '';
+        const d = item.getAttribute('data-difficulty') || '';
+        const s = item.getAttribute('data-skills') || '';
+        const match = (!theme || t === theme) && (!difficulty || d === difficulty) && (!skill || s.split(',').includes(skill));
+        (item as HTMLElement).style.display = match ? '' : 'none';
+      });
+    }
+
+    themeFilter?.addEventListener('change', filter);
+    difficultyFilter?.addEventListener('change', filter);
+    skillFilter?.addEventListener('change', filter);
+  </script>
+</Layout>

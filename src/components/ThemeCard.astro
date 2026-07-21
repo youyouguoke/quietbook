@@ -1,0 +1,32 @@
+---
+interface Props {
+  name: string;
+  slug: string;
+  bookCount: number;
+  emoji: string;
+}
+
+const { name, slug, bookCount, emoji } = Astro.props;
+---
+
+<a
+  href={`/${slug}-quiet-books`}
+  class="group block bg-surface-container-lowest rounded-xl soft-bloom p-6 border border-outline-variant/20 text-center"
+>
+  <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-surface-container flex items-center justify-center text-4xl">
+    {emoji}
+  </div>
+  <h3 class="font-display text-headline-sm font-bold text-on-surface group-hover:text-primary transition-colors">
+    {name} Quiet Books
+  </h3>
+  <p class="text-body-md text-on-surface-variant mt-2">
+    {bookCount} {bookCount === 1 ? "Book" : "Books"}
+  </p>
+  <span class="inline-flex items-center gap-2 text-primary font-body-md font-medium mt-4 group-hover:gap-3 transition-all">
+    Explore
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14" />
+      <path d="m12 5 7 7-7 7" />
+    </svg>
+  </span>
+</a>

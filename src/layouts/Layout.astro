@@ -1,0 +1,32 @@
+---
+const { title, description, image } = Astro.props;
+const siteTitle = title ? `${title} | Quiet Book Library` : "Quiet Book Library";
+const metaDescription = description || "Free printable quiet books for kids. Explore dinosaur, animal, space and educational quiet book activities designed for creative learning.";
+const ogImage = image || "/og-image.png";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{siteTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="font-body min-h-screen">
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  difficulty: string;
+  skills: string[];
+  pages: number;
+  cover: string;
+  slug: string;
+}
+
+const { title, difficulty, skills, pages, cover, slug } = Astro.props;
+---
+
+<a
+  href={`/quiet-book/${slug}`}
+  class="group block bg-surface-container-lowest rounded-xl soft-bloom overflow-hidden border border-outline-variant/20"
+>
+  <div class="aspect-[4/3] bg-surface-container overflow-hidden">
+    <img
+      src={cover}
+      alt={`${title} cover`}
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      loading="lazy"
+      decoding="async"
+      onerror="this.src='/books/placeholders/cover.webp'"
+    />
+  </div>
+
+  <div class="p-5 md:p-6 space-y-3">
+    <h3 class="font-display text-headline-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2">
+      {title}
+    </h3>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="chip-primary">{difficulty}</span>
+      <span class="text-body-sm text-on-surface-variant">{pages} Pages</span>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      {skills.map((skill) => (
+        <span class="chip">{skill}</span>
+      ))}
+    </div>
+
+    <span class="inline-flex items-center gap-2 text-primary font-body-md font-medium group-hover:gap-3 transition-all">
+      View Book
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    </span>
+  </div>
+</a>

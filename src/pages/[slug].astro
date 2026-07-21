@@ -1,0 +1,106 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import BookCard from "../components/BookCard.astro";
+import FAQ from "../components/FAQ.astro";
+
+export async function getStaticPaths() {
+  const bookFiles = import.meta.glob("../content/books/*.md", { eager: true });
+  const books = Object.values(bookFiles).map((b: any) => b.frontmatter);
+
+  const categoryFiles = import.meta.glob("../content/categories/*.md", { eager: true });
+  const skillFiles = import.meta.glob("../content/skills/*.md", { eager: true });
+
+  const fromContent = (type: "category" | "skill") => (file: any) => {
+    const frontmatter = file.frontmatter;
+    const slug = frontmatter.slug;
+    const relatedBooks = books.filter((b: any) => (frontmatter.books || []).includes(b.slug));
+    return {
+      params: { slug: `${slug}-quiet-books` },
+      props: {
+        type,
+        topic: frontmatter,
+        content: file.default,
+        relatedBooks,
+      },
+    };
+  };
+
+  const categoryRoutes = Object.values(categoryFiles).map(fromContent("category"));
+  const skillRoutes = Object.values(skillFiles).map(fromContent("skill"));
+
+  return [...categoryRoutes, ...skillRoutes];
+}
+
+const { topic, content: Content, relatedBooks, type } = Astro.props;
+
+const pageTitle = type === "category"
+  ? `${topic.name} Quiet Books`
+  : `${topic.name} Quiet Books`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: pageTitle,
+  description: topic.description,
+  url: `${Astro.site?.origin || ""}/${topic.slug}-quiet-books`,
+  hasPart: relatedBooks.map((b: any) => ({
+    "@type": "CreativeWork",
+    name: b.title,
+    url: `${Astro.site?.origin || ""}/quiet-book/${b.slug}`,
+  })),
+};
+---
+
+<Layout
+  title={topic.seo_title || pageTitle}
+  description={topic.seo_description || topic.description}
+>
+  <Header />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <main class="bg-surface pt-8 pb-20">
+    <section class="container-main">
+      <div class="py-12 md:py-16 text-center max-w-3xl mx-auto">
+        <h1 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">
+          {pageTitle}
+        </h1>
+        <p class="text-body-lg text-on-surface-variant mt-4">
+          {topic.description}
+        </p>
+      </div>
+
+      <div class="prose-body max-w-3xl mx-auto mb-12">
+        <Content />
+      </div>
+
+      <h2 class="font-display text-headline-md font-bold text-on-surface mb-6">
+        Featured {pageTitle}
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {relatedBooks.map((book: any) => (
+          <BookCard
+            title={book.title}
+            slug={book.slug}
+            difficulty={book.difficulty}
+            skills={book.skills}
+            pages={book.pages}
+            cover={book.cover}
+          />
+        ))}
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <h2 class="font-display text-headline-md font-bold text-on-surface mb-6">
+          Frequently Asked Questions
+        </h2>
+        <FAQ items={topic.faq || []} />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
