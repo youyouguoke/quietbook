@@ -1,0 +1,47 @@
+---
+const navItems = [
+  { label: "Library", href: "/quiet-books" },
+  { label: "Educators", href: "/for-educators" },
+  { label: "How it Works", href: "#how-it-works" },
+  { label: "About", href: "/about" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-sand">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <a href="/" class="font-display text-xl font-bold text-brand">
+      Quiet Library
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8">
+      {navItems.map((item) => {
+        const isActive = currentPath === item.href || currentPath.startsWith(item.href + "/");
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              "text-sm font-medium transition-colors",
+              isActive ? "text-brand font-semibold border-b-2 border-brand pb-1" : "text-text-muted hover:text-brand",
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <a href="/search" class="text-text-muted hover:text-brand">
+        <span class="material-symbols-outlined">search</span>
+      </a>
+      <a href="/quiet-books" class="hidden md:inline-flex bg-brand text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-brand-dark transition-colors">
+        Get Started
+      </a>
+      <button class="md:hidden text-text-muted">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+</header>

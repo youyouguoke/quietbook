@@ -1,18 +1,23 @@
 ---
-name: "Life Skills"
-slug: "life-skills"
+name: Life Skills
+slug: life-skills
 display_order: 4
-description: "Life skills quiet books for daily routines, dressing, cooking, shopping and role-play."
-seo_title: "Life Skills Quiet Books Printable | Free Activities for Kids"
-seo_description: "Free printable life skills quiet books. Daily routines, dressing, cooking and pretend play for independence and learning."
+description: Life skills quiet books for daily routines, dressing, cooking, shopping
+  and role-play.
+seo_title: Life Skills Quiet Books Printable | Free Activities for Kids
+seo_description: Free printable life skills quiet books. Daily routines, dressing,
+  cooking and pretend play for independence and learning.
 books:
-  - daily-routine
+- daily-routine
 faq:
-  - question: "What life skills are covered?"
-    answer: "Daily routines, dressing, cooking, grocery shopping, doctor and dentist role-play."
-  - question: "Who benefits from life skills quiet books?"
-    answer: "Preschool and early elementary children building independence."
+- question: What life skills are covered?
+  answer: Daily routines, dressing, cooking, grocery shopping, doctor and dentist
+    role-play.
+- question: Who benefits from life skills quiet books?
+  answer: Preschool and early elementary children building independence.
+image: /images/placeholder.webp
 ---
+
 
 # Life Skills Quiet Books
 

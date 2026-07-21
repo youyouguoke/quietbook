@@ -1,40 +1,54 @@
 ---
-title: "Alphabet Fun"
-slug: "alphabet"
-theme: "Learning"
-difficulty: "Medium"
-skills: ["Learning", "Matching", "Fine Motor"]
-activity_types: ["Matching", "Tracing", "Sorting"]
+title: Alphabet Fun
+slug: alphabet
+theme: Learning
+difficulty: Medium
+skills:
+- Learning
+- Matching
+- Fine Motor
+activity_types:
+- Matching
+- Tracing
+- Sorting
 pages: 30
-recommended_age: "3-6"
-format: "Printable PDF"
-cover: "/images/books/alphabet.jpg"
-pdf: "/books/alphabet/alphabet.pdf"
+recommended_age: 3-6
+format: Printable PDF
+cover: /images/books/alphabet.jpg
+pdf: /pdfs/alphabet.pdf
 preview:
-  - "/books/alphabet/page01.webp"
-  - "/books/alphabet/page02.webp"
+- /books/alphabet/page01.webp
+- /books/alphabet/page02.webp
 learning_goals:
-  - "Letter recognition"
-  - "Letter-sound matching"
-  - "Fine motor control"
+- Letter recognition
+- Letter-sound matching
+- Fine motor control
 materials:
-  - "Printer"
-  - "Paper"
-  - "Scissors"
-  - "Velcro dots"
-seo_title: "Alphabet Fun"
-seo_description: "Free alphabet quiet book printable. Learn letters and sounds with hands-on matching and sorting activities."
+- Printer
+- Paper
+- Scissors
+- Velcro dots
+seo_title: Alphabet Fun
+seo_description: Free alphabet quiet book printable. Learn letters and sounds with
+  hands-on matching and sorting activities.
 keywords:
-  - "alphabet quiet book"
-  - "abc quiet book printable"
-  - "letter activities for preschool"
-  - "alphabet busy book"
+- alphabet quiet book
+- abc quiet book printable
+- letter activities for preschool
+- alphabet busy book
 faq:
-  - question: "What age is the alphabet quiet book for?"
-    answer: "Ages 3-6 who are learning letters and letter sounds."
-  - question: "What is included?"
-    answer: "Letter matching, beginning sound puzzles and uppercase-lowercase pairing."
+- question: What age is the alphabet quiet book for?
+  answer: Ages 3-6 who are learning letters and letter sounds.
+- question: What is included?
+  answer: Letter matching, beginning sound puzzles and uppercase-lowercase pairing.
+images:
+- /images/book-detail/preview1.jpg
+- /images/book-detail/preview2.jpg
+- /images/book-detail/preview3.jpg
+- /images/book-detail/preview4.jpg
+image: /images/placeholder.webp
 ---
+
 
 A calm, Montessori-inspired introduction to letters. Children match letters, pair uppercase with lowercase and sort beginning sounds with soft, tactile pieces.
 

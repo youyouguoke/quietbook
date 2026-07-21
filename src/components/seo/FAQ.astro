@@ -1,0 +1,21 @@
+---
+interface Props {
+  faqs: { question: string; answer: string }[];
+}
+
+const { faqs } = Astro.props;
+---
+
+<div class="space-y-4">
+  {faqs.map((faq) => (
+    <details class="group bg-white rounded-soft p-1 border border-sand soft-bloom">
+      <summary class="list-none p-5 flex justify-between items-center cursor-pointer font-medium text-text">
+        {faq.question}
+        <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <div class="px-5 pb-5 text-text-muted">
+        {faq.answer}
+      </div>
+    </details>
+  ))}
+</div>

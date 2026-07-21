@@ -1,0 +1,29 @@
+---
+import Button from "./common/Button.astro";
+
+interface Props {
+  title: string;
+  subtitle: string;
+  image: string;
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+}
+
+const { title, subtitle, image, primaryCta, secondaryCta } = Astro.props;
+---
+
+<section class="grid md:grid-cols-2 gap-12 items-center py-20 max-w-7xl mx-auto px-6">
+  <div class="space-y-6">
+    <h1 class="font-display text-4xl md:text-5xl font-bold text-text leading-tight">{title}</h1>
+    <p class="text-lg text-text-muted leading-relaxed">{subtitle}</p>
+
+    <div class="flex flex-wrap gap-4">
+      {primaryCta && <Button type="primary" href={primaryCta.href}>{primaryCta.label}</Button>}
+      {secondaryCta && <Button type="secondary" href={secondaryCta.href}>{secondaryCta.label}</Button>}
+    </div>
+  </div>
+
+  <div class="aspect-[4/5] rounded-soft overflow-hidden shadow-card bg-cream">
+    <img src={image} alt={title} class="w-full h-full object-cover" loading="eager" />
+  </div>
+</section>

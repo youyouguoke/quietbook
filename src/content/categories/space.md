@@ -1,18 +1,22 @@
 ---
-name: "Space"
-slug: "space"
+name: Space
+slug: space
 display_order: 3
-description: "Space quiet books for young explorers. Rockets, planets, astronauts and hands-on missions."
-seo_title: "Space Quiet Books Printable | Free Space Activity Books"
-seo_description: "Free printable space quiet books. Build rockets, match planets and explore the solar system through hands-on play."
+description: Space quiet books for young explorers. Rockets, planets, astronauts and
+  hands-on missions.
+seo_title: Space Quiet Books Printable | Free Space Activity Books
+seo_description: Free printable space quiet books. Build rockets, match planets and
+  explore the solar system through hands-on play.
 books:
-  - space-adventure
+- space-adventure
 faq:
-  - question: "What age is space quiet books for?"
-    answer: "Ages 5-9 who are curious about space and the solar system."
-  - question: "What activities are included?"
-    answer: "Rocket puzzles, planet matching, sequencing missions and astronaut role-play."
+- question: What age is space quiet books for?
+  answer: Ages 5-9 who are curious about space and the solar system.
+- question: What activities are included?
+  answer: Rocket puzzles, planet matching, sequencing missions and astronaut role-play.
+image: /images/placeholder.webp
 ---
+
 
 # Space Quiet Books
 

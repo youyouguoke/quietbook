@@ -1,0 +1,98 @@
+---
+interface Props {
+  type: "Book" | "Article" | "FAQPage" | "WebPage" | "BreadcrumbList" | "ItemList";
+  data: any;
+}
+
+const { type, data } = Astro.props;
+
+function buildSchema(t: string, d: any) {
+  const siteUrl = "https://quietbooklibrary.com";
+
+  switch (t) {
+    case "Book":
+      return {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        name: d.title,
+        description: d.description,
+        image: d.cover?.startsWith("http") ? d.cover : `${siteUrl}${d.cover}`,
+        url: `${siteUrl}/quiet-book/${d.slug}`,
+        author: { "@type": "Organization", name: "Quiet Library" },
+        publisher: { "@type": "Organization", name: "Quiet Library" },
+        numberOfPages: d.pages,
+        educationalLevel: d.difficulty,
+        about: d.theme,
+      };
+
+    case "Article":
+      return {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: d.title,
+        description: d.description,
+        image: d.image?.startsWith("http") ? d.image : d.image ? `${siteUrl}${d.image}` : undefined,
+        url: `${siteUrl}/blog/${d.slug}`,
+        datePublished: d.pubDate,
+        author: { "@type": "Organization", name: d.author || "Quiet Library" },
+        publisher: { "@type": "Organization", name: "Quiet Library" },
+      };
+
+    case "FAQPage":
+      return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: (d || []).map((faq: any) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      };
+
+    case "WebPage":
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: d.title,
+        description: d.description,
+        url: `${siteUrl}${d.url || ""}`,
+      };
+
+    case "BreadcrumbList":
+      return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: d.map((item: any, i: number) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: item.name,
+          item: item.href ? `${siteUrl}${item.href}` : undefined,
+        })),
+      };
+
+    case "ItemList":
+      return {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        itemListElement: (d || []).map((item: any, i: number) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: `${siteUrl}/quiet-book/${item.slug}`,
+          name: item.title,
+        })),
+      };
+
+    default:
+      return null;
+  }
+}
+
+const schema = buildSchema(type, data);
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

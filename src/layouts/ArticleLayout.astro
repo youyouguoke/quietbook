@@ -1,0 +1,18 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+}
+
+const { title, description, image, canonical } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image} canonical={canonical}>
+  <article class="max-w-3xl mx-auto px-6 py-16">
+    <slot />
+  </article>
+</BaseLayout>

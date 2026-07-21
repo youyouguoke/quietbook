@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  book: CollectionEntry<"books">;
+}
+
+const { book } = Astro.props;
+const data = book.data;
+
+const facts = [
+  { label: "Theme", value: data.theme, icon: "potted_plant" },
+  { label: "Difficulty", value: data.difficulty, icon: "bar_chart" },
+  { label: "Skills", value: data.skills.slice(0, 2).join(" & "), icon: "extension" },
+  { label: "Pages", value: `${data.pages} Activities`, icon: "auto_stories" },
+];
+---
+
+<div class="grid grid-cols-2 gap-4">
+  {facts.map((fact) => (
+    <div class="bg-cream p-4 rounded-soft flex items-center gap-3">
+      <span class="material-symbols-outlined text-brand">{fact.icon}</span>
+      <div>
+        <p class="text-xs text-text-muted uppercase tracking-wide">{fact.label}</p>
+        <p class="text-sm font-semibold text-text">{fact.value}</p>
+      </div>
+    </div>
+  ))}
+</div>

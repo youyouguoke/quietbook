@@ -1,10 +1,16 @@
 ---
-title: "What Is a Quiet Book?"
-slug: "what-is-a-quiet-book"
-seo_title: "What Is a Quiet Book? A Complete Guide for Parents"
-seo_description: "Learn what a quiet book is, why kids love them and how to use printable quiet books for hands-on learning at home."
-published_at: 2026-07-21
+title: What Is a Quiet Book?
+slug: what-is-a-quiet-book
+seo_title: What Is a Quiet Book? A Complete Guide for Parents
+seo_description: Learn what a quiet book is, why kids love them and how to use printable
+  quiet books for hands-on learning at home.
+image: /images/placeholder.webp
+description: Learn what a quiet book is, why kids love them and how to use printable
+  quiet books for hands-on learning at home.
+pubDate: 2026-07-21
 ---
+
+
 
 # What Is a Quiet Book?
 

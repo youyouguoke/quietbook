@@ -1,0 +1,18 @@
+---
+interface Props {
+  name: string;
+  count: number;
+  image: string;
+  href: string;
+}
+
+const { name, count, image, href } = Astro.props;
+---
+
+<a href={href} class="group block rounded-soft bg-cream p-6 text-center transition-all hover:shadow-card">
+  <div class="aspect-square w-full rounded-full overflow-hidden mb-4 mx-auto bg-white max-w-[180px]">
+    <img src={image} alt={name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+  </div>
+  <h3 class="font-display text-lg font-semibold text-text group-hover:text-brand">{name}</h3>
+  <p class="text-sm text-text-muted">{count} Books</p>
+</a>

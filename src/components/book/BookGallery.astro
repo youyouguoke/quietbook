@@ -1,0 +1,44 @@
+---
+interface Props {
+  images: string[];
+}
+
+const { images = [] } = Astro.props;
+---
+
+{
+  images.length > 0 && (
+    <section class="bg-cream py-section">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex justify-between items-end mb-8">
+          <div>
+            <h2 class="font-display text-2xl font-semibold text-text">Preview Gallery</h2>
+            <p class="text-text-muted">See inside the pages of this adventure.</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="w-12 h-12 rounded-full border border-sand flex items-center justify-center hover:bg-white transition-colors">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button class="w-12 h-12 rounded-full border border-sand flex items-center justify-center hover:bg-white transition-colors">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {images.map((src, i) => (
+            <div class="aspect-[3/4] rounded-soft overflow-hidden bg-white shadow-card">
+              <img
+                src={src}
+                alt={`Preview ${i + 1}`}
+                class="w-full h-full object-cover"
+                loading="lazy"
+                onerror="this.src='/images/placeholder.webp'"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

@@ -1,19 +1,23 @@
 ---
-name: "Matching"
-slug: "matching"
+name: Matching
+slug: matching
 display_order: 2
-description: "Matching quiet books help children recognize pairs, patterns and similarities."
-seo_title: "Matching Quiet Books Printable | Preschool Matching Activities"
-seo_description: "Free printable matching quiet books. Picture matching, memory games and pair activities for preschool and kindergarten."
+description: Matching quiet books help children recognize pairs, patterns and similarities.
+seo_title: Matching Quiet Books Printable | Preschool Matching Activities
+seo_description: Free printable matching quiet books. Picture matching, memory games
+  and pair activities for preschool and kindergarten.
 books:
-  - dinosaur-adventure
-  - farm-animal
-  - space-adventure
-  - alphabet
+- dinosaur-adventure
+- farm-animal
+- space-adventure
+- alphabet
 faq:
-  - question: "What is matching in quiet books?"
-    answer: "Matching activities ask children to pair related items like animals and babies, letters and sounds, or dinosaurs and footprints."
+- question: What is matching in quiet books?
+  answer: Matching activities ask children to pair related items like animals and
+    babies, letters and sounds, or dinosaurs and footprints.
+image: /images/placeholder.webp
 ---
+
 
 # Matching Quiet Books
 

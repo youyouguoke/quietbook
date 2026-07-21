@@ -1,16 +1,19 @@
 ---
-name: "Logic"
-slug: "logic"
+name: Logic
+slug: logic
 display_order: 3
-description: "Logic quiet books build sorting, sequencing and problem-solving skills."
-seo_title: "Logic Quiet Books Printable | Problem Solving Activities for Kids"
-seo_description: "Free printable logic quiet books. Sorting, sequencing, puzzles and problem-solving activities for young learners."
+description: Logic quiet books build sorting, sequencing and problem-solving skills.
+seo_title: Logic Quiet Books Printable | Problem Solving Activities for Kids
+seo_description: Free printable logic quiet books. Sorting, sequencing, puzzles and
+  problem-solving activities for young learners.
 books:
-  - space-adventure
+- space-adventure
 faq:
-  - question: "What logic skills do these books develop?"
-    answer: "Sorting, sequencing, classification and simple cause-and-effect reasoning."
+- question: What logic skills do these books develop?
+  answer: Sorting, sequencing, classification and simple cause-and-effect reasoning.
+image: /images/placeholder.webp
 ---
+
 
 # Logic Quiet Books
 

@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Badge from "../common/Badge.astro";
+
+interface Props {
+  book: CollectionEntry<"books">["data"];
+}
+
+const { book } = Astro.props;
+---
+
+<article class="bg-white rounded-soft shadow-card overflow-hidden flex flex-col h-full transition-all hover:-translate-y-1 hover:shadow-lg">
+  <a href={`/quiet-book/${book.slug}`} class="block">
+    <div class="aspect-square w-full relative bg-cream">
+      <img
+        src={book.cover}
+        alt={`${book.title} cover`}
+        class="w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
+        onerror="this.src='/images/placeholder.webp'"
+      />
+    </div>
+  </a>
+
+  <div class="p-5 flex flex-col flex-grow gap-4">
+    <div class="space-y-1">
+      <div class="flex justify-between items-start">
+        <Badge>{book.theme}</Badge>
+        <span class="text-xs text-text-muted">{book.difficulty}</span>
+      </div>
+      <h3 class="font-display text-lg font-semibold text-text leading-tight">
+        <a href={`/quiet-book/${book.slug}`} class="hover:text-brand">{book.title}</a>
+      </h3>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mt-auto">
+      {book.skills.slice(0, 3).map((skill) => (
+        <span class="bg-cream text-text-muted px-3 py-1 rounded-full text-xs">{skill}</span>
+      ))}
+    </div>
+  </div>
+</article>

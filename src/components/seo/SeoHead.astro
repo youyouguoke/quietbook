@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonical?: string;
+}
+
+const { title, description, image, canonical } = Astro.props;
+const siteUrl = "https://quietbooklibrary.com";
+const pageUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
+const ogImage = image ? (image.startsWith("http") ? image : `${siteUrl}${image}`) : `${siteUrl}/images/og-default.jpg`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="canonical" href={pageUrl} />
+<meta name="description" content={description} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={pageUrl} />
+<meta property="og:image" content={ogImage} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />

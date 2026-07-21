@@ -1,0 +1,35 @@
+---
+interface Activity {
+  name: string;
+  type: string;
+  difficulty: "Easy" | "Medium" | "Advanced";
+  skill: string;
+  description?: string;
+}
+
+interface Props {
+  activities: Activity[];
+}
+
+const { activities } = Astro.props;
+
+const difficultyColors = {
+  Easy: "bg-brand-light text-brand-dark",
+  Medium: "bg-sand text-text",
+  Advanced: "bg-cream text-text",
+};
+---
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  {activities.map((a) => (
+    <div class="bg-white p-6 rounded-soft shadow-card border border-sand">
+      <h3 class="font-display text-lg font-semibold text-text mb-1">{a.name}</h3>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <span class="text-xs text-text-muted">{a.type}</span>
+        <span class:list={["text-xs px-2 py-0.5 rounded-full", difficultyColors[a.difficulty]]}>{a.difficulty}</span>
+      </div>
+      <p class="text-sm text-text-muted mb-2">{a.description}</p>
+      <div class="text-xs text-brand font-medium">Develop: {a.skill}</div>
+    </div>
+  ))}
+</div>

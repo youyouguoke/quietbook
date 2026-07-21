@@ -1,16 +1,20 @@
 ---
-name: "Learning"
-slug: "learning-skill"
+name: Learning
+slug: learning-skill
 display_order: 5
-description: "Learning quiet books for letters, numbers, shapes, colors and early academic skills."
-seo_title: "Educational Quiet Books Printable | Learning Activities for Kids"
-seo_description: "Free printable educational quiet books. Letters, numbers, shapes and colors for preschool and kindergarten learning."
+description: Learning quiet books for letters, numbers, shapes, colors and early academic
+  skills.
+seo_title: Educational Quiet Books Printable | Learning Activities for Kids
+seo_description: Free printable educational quiet books. Letters, numbers, shapes
+  and colors for preschool and kindergarten learning.
 books:
-  - alphabet
+- alphabet
 faq:
-  - question: "What academic topics are covered?"
-    answer: "Letters, numbers, shapes, colors, patterns and early science concepts."
+- question: What academic topics are covered?
+  answer: Letters, numbers, shapes, colors, patterns and early science concepts.
+image: /images/placeholder.webp
 ---
+
 
 # Educational Quiet Books
 

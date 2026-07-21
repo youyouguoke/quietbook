@@ -1,209 +1,148 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSection from "../components/HeroSection.astro";
+import ThemeCard from "../components/category/ThemeCard.astro";
+import BookGrid from "../components/book/BookGrid.astro";
+import FAQ from "../components/seo/FAQ.astro";
+import JsonLd from "../components/seo/JsonLd.astro";
+import { getCollection } from "astro:content";
 
-const collections = [
-  {
-    title: "The Nature Series",
-    description: "Explore seasonal cycles, forest animals, and botanical wonders through interactive paper puzzles.",
-    image: "/images/collection-nature.jpg",
-    tag: "Ages 2-4",
-    span: "md:col-span-7",
-    height: "h-80",
-  },
-  {
-    title: "Daily Life Skills",
-    description: "Practical life activities including zip-up puzzles and time-telling games.",
-    image: "/images/collection-daily.jpg",
-    span: "md:col-span-5",
-    height: "h-64",
-  },
+const books = await getCollection("books");
+const featuredBooks = books.slice(0, 4);
+const categories = await getCollection("categories");
+const skills = await getCollection("skills");
+
+const faqs = [
+  { question: "What is a quiet book?", answer: "A quiet book is a soft, interactive book designed for children that includes educational activities like matching, sorting, zipping, and buttoning." },
+  { question: "Are your quiet books free?", answer: "Yes. Every book in the Quiet Library is available as a free PDF download for parents and educators." },
+  { question: "How do I assemble the book?", answer: "Print the PDF on heavy paper, laminate the pages for durability, and attach velcro dots to the movable pieces." },
 ];
 
-const mathFeatures = ["Counting", "Shapes", "Logic"];
-
-const steps = [
-  {
-    icon: "search",
-    title: "Discover",
-    description: "Browse our curated collections of age-appropriate printable activities tailored to your child's developmental milestones.",
-  },
-  {
-    icon: "print",
-    title: "Print",
-    description: "Download high-resolution PDFs instantly and print them on your choice of sustainable materials or cardstock at home.",
-  },
-  {
-    icon: "child_care",
-    title: "Play",
-    description: "Assemble with ease and watch your little one engage in deep, focused, and meaningful independent play sessions.",
-  },
-];
-
-const stats = [
-  { value: "100%", label: "Tactile" },
-  { value: "Eco", label: "Printables" },
-  { value: "Zero", label: "Distraction" },
-  { value: "Pure", label: "Focus" },
+const pageJsonLd = [
+  { type: "WebPage", data: { title: "Quiet Library", description: "Nurturing Curious Minds through Quiet Play", url: "/" } },
+  { type: "ItemList", data: featuredBooks.map((b) => b.data) },
+  { type: "FAQPage", data: faqs },
 ];
 ---
 
-<Layout
+<BaseLayout
   title="Quiet Library | Nurturing Curious Minds"
-  description="High-quality, printable educational resources inspired by Scandinavian Montessori principles. Create tactile learning environments at home."
+  description="Discover free printable quiet books and Montessori-inspired activities for focused, independent play."
+  image="/images/hero.jpg"
+  canonical="/"
 >
-  <Header />
+  <!-- JSON-LD -->
+  <Fragment slot="head">
+    {pageJsonLd.map((ld) => (
+      <JsonLd type={ld.type} data={ld.data} />
+    ))}
+  </Fragment>
 
-  <main class="pb-16 md:pb-0">
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden bg-surface py-section-gap">
-      <div class="container-main grid md:grid-cols-2 gap-12 items-center">
-        <div class="z-10 text-center md:text-left">
-          <h1 class="font-display text-display-lg text-on-background mb-6 leading-tight">
-            Nurturing <span class="text-primary">Curious Minds</span> through Quiet Play.
-          </h1>
-          <p class="font-body text-body-lg text-on-surface-variant mb-10 max-w-lg mx-auto md:mx-0">
-            High-quality, printable educational resources inspired by Scandinavian Montessori principles. Create tactile learning environments at home.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <a href="/quiet-books" class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:shadow-lg transition-all active:scale-95 inline-flex items-center justify-center">
-              Explore the Library
-            </a>
-            <a href="#" class="border-2 border-primary-container text-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-primary-container transition-all active:scale-95 inline-flex items-center justify-center">
-              Watch How-to Guide
-            </a>
-          </div>
+  <HeroSection
+    title="Nurturing Curious Minds through Quiet Play."
+    subtitle="Beautiful printable quiet books inspired by Montessori and Scandinavian design. Print, assemble, and play at home or in the classroom."
+    image="/images/hero.jpg"
+    primaryCta={{ label: "Explore the Library", href: "/quiet-books" }}
+    secondaryCta={{ label: "Watch How-to Guide", href: "#how-it-works" }}
+  />
+
+  <!-- How it Works -->
+  <section id="how-it-works" class="py-20 bg-cream">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="font-display text-3xl font-semibold text-text mb-3">A Simple Path to Focus</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <span class="material-symbols-outlined text-5xl text-brand mb-4">search</span>
+          <h3 class="font-display text-xl font-semibold text-text mb-2">Discover</h3>
+          <p class="text-text-muted">Browse themed quiet books by age, skill, or learning goal.</p>
         </div>
-
-        <div class="relative group">
-          <div class="absolute -inset-4 bg-tertiary-fixed-dim/30 rounded-[40px] blur-3xl group-hover:bg-primary-fixed/20 transition-colors duration-700"></div>
-          <img
-            src="/images/hero.jpg"
-            alt="A serene photograph of a toddler engaged in a felt quiet book"
-            class="relative z-10 w-full aspect-[4/5] object-cover rounded-3xl soft-bloom"
-          />
+        <div class="text-center">
+          <span class="material-symbols-outlined text-5xl text-brand mb-4">print</span>
+          <h3 class="font-display text-xl font-semibold text-text mb-2">Print</h3>
+          <p class="text-text-muted">Download the free PDF and print on heavy paper at home.</p>
+        </div>
+        <div class="text-center">
+          <span class="material-symbols-outlined text-5xl text-brand mb-4">child_care</span>
+          <h3 class="font-display text-xl font-semibold text-text mb-2">Play</h3>
+          <p class="text-text-muted">Watch your child build focus and independence through hands-on play.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- How it Works -->
-    <section id="how-it-works" class="bg-surface-container-low py-section-gap">
-      <div class="container-main">
-        <div class="text-center mb-16">
-          <h2 class="font-display text-headline-lg text-on-surface mb-4">A Simple Path to Focus</h2>
-          <div class="w-20 h-1 bg-primary-container mx-auto rounded-full"></div>
+  <!-- Featured Collections -->
+  <section class="py-20 max-w-7xl mx-auto px-6">
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <h2 class="font-display text-3xl font-semibold text-text mb-2">Featured Collections</h2>
+        <p class="text-text-muted">Curated themes to spark wonder and independent learning.</p>
+      </div>
+      <a href="/categories" class="text-brand font-medium hover:underline">View All →</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="relative rounded-soft overflow-hidden bg-cream aspect-[4/3] group">
+        <img src="/images/collection-nature.jpg" alt="Nature Series" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+          <h3 class="font-display text-2xl font-semibold text-white mb-1">The Nature Series</h3>
+          <a href="/categories" class="text-white/90 hover:text-white">View Collection →</a>
         </div>
+      </div>
+      <div class="relative rounded-soft overflow-hidden bg-cream aspect-[4/3] group">
+        <img src="/images/collection-daily.jpg" alt="Daily Life Skills" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+          <h3 class="font-display text-2xl font-semibold text-white mb-1">Daily Life Skills</h3>
+          <a href="/categories" class="text-white/90 hover:text-white">Explore →</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="grid md:grid-cols-3 gap-gutter">
-          {steps.map((step) => (
-            <div class="bg-surface-container-lowest p-8 rounded-2xl soft-bloom hover-lift transition-all flex flex-col items-center text-center">
-              <div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center mb-6 text-primary">
-                <span class="material-symbols-outlined text-4xl">{step.icon}</span>
-              </div>
-              <h3 class="font-display text-headline-md mb-3">{step.title}</h3>
-              <p class="font-body text-body-md text-on-surface-variant">
-                {step.description}
-              </p>
+  <!-- Featured Books -->
+  <section class="py-20 bg-cream">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <h2 class="font-display text-3xl font-semibold text-text mb-2">Featured Books</h2>
+          <p class="text-text-muted">Hand-picked favorites from the library.</p>
+        </div>
+        <a href="/quiet-books" class="text-brand font-medium hover:underline">View All →</a>
+      </div>
+
+      <BookGrid books={featuredBooks} />
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="py-20 max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="aspect-[4/3] rounded-soft overflow-hidden bg-cream">
+        <img src="/images/collection-math.jpg" alt="Philosophy of Quiet" class="w-full h-full object-cover" />
+      </div>
+      <div class="space-y-6">
+        <h2 class="font-display text-3xl font-semibold text-text">The Philosophy of Quiet</h2>
+        <p class="text-text-muted leading-relaxed">
+          Our quiet books are rooted in Montessori principles: child-led activity, hands-on engagement, and calm, focused learning. Each page is designed to build independence while respecting a child's natural rhythm.
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          {skills.slice(0, 4).map((skill) => (
+            <div class="bg-cream rounded-soft p-4">
+              <h4 class="font-display font-semibold text-text">{skill.data.name}</h4>
+              <p class="text-sm text-text-muted">{skill.data.description}</p>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Featured Collections - Asymmetric Grid -->
-    <section class="py-section-gap bg-surface">
-      <div class="container-main">
-        <div class="flex justify-between items-end mb-12">
-          <div>
-            <h2 class="font-display text-headline-lg text-on-surface mb-2">Featured Collections</h2>
-            <p class="font-body text-body-md text-on-surface-variant">The best of our prepared environments.</p>
-          </div>
-          <a href="/quiet-books" class="text-primary font-semibold flex items-center gap-1 hover:underline">
-            View All <span class="material-symbols-outlined">chevron_right</span>
-          </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-          {collections.map((c) => (
-            <div class:list={[c.span, "bg-surface-container-lowest rounded-3xl overflow-hidden soft-bloom hover-lift transition-all group flex flex-col"]} id={c.title}>
-              <div class:list={[c.height, "relative overflow-hidden"]} id="image">
-                <img
-                  src={c.image}
-                  alt={c.title}
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {c.tag && (
-                  <div class="absolute top-4 left-4">
-                    <span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-label-sm uppercase tracking-wider">
-                      {c.tag}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div class="p-8 flex-grow">
-                <h3 class="font-display text-headline-md mb-2">{c.title}</h3>
-                <p class="font-body text-body-md text-on-surface-variant mb-6">{c.description}</p>
-                <a href="/quiet-books" class="text-primary font-semibold flex items-center gap-2">
-                  {c.title === "The Nature Series" ? "View Collection" : "Explore"} 
-                  <span class="material-symbols-outlined">arrow_forward</span>
-                </a>
-              </div>
-            </div>
-          ))}
-
-          <!-- Little Mathematician -->
-          <div class="md:col-span-12 bg-primary-container/10 rounded-3xl overflow-hidden p-8 flex flex-col md:flex-row items-center gap-8 soft-bloom">
-            <div class="w-full md:w-1/2 h-64 md:h-auto rounded-2xl overflow-hidden">
-              <img
-                src="/images/collection-math.jpg"
-                alt="Little Mathematician"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="w-full md:w-1/2 text-center md:text-left">
-              <h3 class="font-display text-headline-md mb-2">Little Mathematician</h3>
-              <p class="font-body text-body-md text-on-surface-variant mb-6">
-                Foundational numeracy built through tactile association and geometric shape discovery. Perfect for early educators and homeschoolers.
-              </p>
-              <div class="flex flex-wrap gap-2 justify-center md:justify-start mb-6">
-                {mathFeatures.map((feature) => (
-                  <span class="px-4 py-1 bg-secondary/10 text-secondary rounded-full font-label-sm text-label-sm">
-                    {feature}
-                  </span>
-                ))}
-              </div>
-              <a href="/quiet-books" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-md text-label-md active:scale-95 transition-all inline-flex items-center justify-center">
-                Shop Collection
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Montessori Blurb -->
-    <section class="py-section-gap relative overflow-hidden">
-      <div class="absolute inset-0 bg-tertiary-fixed opacity-20 pointer-events-none"></div>
-      <div class="container-main relative z-10 text-center">
-        <div class="max-w-3xl mx-auto">
-          <span class="material-symbols-outlined text-secondary text-5xl mb-6">auto_awesome</span>
-          <h2 class="font-display text-headline-lg md:text-display-lg text-on-surface mb-8">The Philosophy of Quiet</h2>
-          <p class="font-body text-body-lg text-on-surface-variant leading-relaxed mb-10">
-            At Quiet Library, we believe that children thrive in a "prepared environment"—a space designed with intentionality, beauty, and order. Inspired by the Montessori approach, our resources eliminate the overstimulation of modern toys, replacing them with focused, hands-on tasks that build confidence, autonomy, and fine motor skills.
-          </p>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div class="flex flex-col items-center">
-                <span class="font-display text-headline-md text-primary">{stat.value}</span>
-                <span class="font-label-sm text-label-sm text-on-surface-variant">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <Footer />
-</Layout>
+  <!-- FAQ -->
+  <section class="py-20 bg-cream">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="font-display text-3xl font-semibold text-text mb-10 text-center">Frequently Asked Questions</h2>
+      <FAQ faqs={faqs} />
+    </div>
+  </section>
+</BaseLayout>
