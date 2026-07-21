@@ -1,14 +1,14 @@
 ---
-title: "Farm Animal Quiet Book"
+title: "Farm Animal Friends"
 slug: "farm-animal"
 theme: "Animals"
-difficulty: "Easy"
+difficulty: "Medium"
 skills: ["Fine Motor", "Matching", "Life Skills"]
 activity_types: ["Matching", "Sorting", "Role Play"]
 pages: 28
 recommended_age: "3-6"
 format: "Printable PDF"
-cover: "/books/farm-animal/cover.webp"
+cover: "/images/books/farm.jpg"
 pdf: "/books/farm-animal/farm-animal.pdf"
 preview:
   - "/books/farm-animal/page01.webp"
@@ -22,7 +22,7 @@ materials:
   - "Paper"
   - "Scissors"
   - "Velcro dots"
-seo_title: "Farm Animal Quiet Book Printable - Free PDF for Kids"
+seo_title: "Farm Animal Friends"
 seo_description: "Free farm animal quiet book printable. Feed animals, match babies and practice sorting in a hands-on farm activity book."
 keywords:
   - "farm animal quiet book"

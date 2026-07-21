@@ -1,14 +1,14 @@
 ---
-title: "Alphabet Quiet Book"
+title: "Alphabet Fun"
 slug: "alphabet"
 theme: "Learning"
-difficulty: "Easy"
+difficulty: "Medium"
 skills: ["Learning", "Matching", "Fine Motor"]
 activity_types: ["Matching", "Tracing", "Sorting"]
 pages: 30
 recommended_age: "3-6"
 format: "Printable PDF"
-cover: "/books/alphabet/cover.webp"
+cover: "/images/books/alphabet.jpg"
 pdf: "/books/alphabet/alphabet.pdf"
 preview:
   - "/books/alphabet/page01.webp"
@@ -22,7 +22,7 @@ materials:
   - "Paper"
   - "Scissors"
   - "Velcro dots"
-seo_title: "Alphabet Quiet Book Printable - Free ABC Activity Book"
+seo_title: "Alphabet Fun"
 seo_description: "Free alphabet quiet book printable. Learn letters and sounds with hands-on matching and sorting activities."
 keywords:
   - "alphabet quiet book"

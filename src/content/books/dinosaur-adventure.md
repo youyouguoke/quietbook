@@ -1,14 +1,14 @@
 ---
-title: "Dinosaur Adventure Quiet Book"
+title: "Dinosaur Adventure"
 slug: "dinosaur-adventure"
 theme: "Dinosaur"
-difficulty: "Medium"
+difficulty: "Easy"
 skills: ["Fine Motor", "Matching", "Science"]
 activity_types: ["Matching", "Sorting", "Puzzle", "Counting"]
 pages: 30
 recommended_age: "4-8"
 format: "Printable PDF"
-cover: "/books/dinosaur-adventure/cover.webp"
+cover: "/images/books/dinosaur.jpg"
 pdf: "/books/dinosaur-adventure/dinosaur-adventure.pdf"
 preview:
   - "/books/dinosaur-adventure/page01.webp"
@@ -23,7 +23,7 @@ materials:
   - "Paper"
   - "Scissors"
   - "Velcro dots"
-seo_title: "Dinosaur Adventure Quiet Book Printable - Free PDF Activity Book"
+seo_title: "Dinosaur Adventure"
 seo_description: "Download this free dinosaur quiet book printable. Includes matching games, fossil puzzles and hands-on activities for young dinosaur lovers."
 keywords:
   - "dinosaur quiet book printable"

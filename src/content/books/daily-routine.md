@@ -1,14 +1,14 @@
 ---
-title: "Daily Routine Quiet Book"
+title: "Daily Life Skills"
 slug: "daily-routine"
 theme: "Life Skills"
-difficulty: "Easy"
+difficulty: "Medium"
 skills: ["Life Skills", "Sequencing", "Fine Motor"]
 activity_types: ["Sequencing", "Matching", "Role Play"]
 pages: 26
 recommended_age: "3-6"
 format: "Printable PDF"
-cover: "/books/daily-routine/cover.webp"
+cover: "/images/books/nature.jpg"
 pdf: "/books/daily-routine/daily-routine.pdf"
 preview:
   - "/books/daily-routine/page01.webp"
@@ -22,7 +22,7 @@ materials:
   - "Paper"
   - "Scissors"
   - "Velcro dots"
-seo_title: "Daily Routine Quiet Book Printable - Free PDF for Preschoolers"
+seo_title: "Daily Life Skills"
 seo_description: "Free daily routine quiet book printable. Help kids practice morning and bedtime routines through hands-on play."
 keywords:
   - "daily routine quiet book"

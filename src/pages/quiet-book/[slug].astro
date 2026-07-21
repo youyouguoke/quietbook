@@ -3,148 +3,264 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import BookCard from "../../components/BookCard.astro";
-import FAQ from "../../components/FAQ.astro";
-import Button from "../../components/Button.astro";
 
 export async function getStaticPaths() {
-  const bookFiles = import.meta.glob("../../content/books/*.md", { eager: true });
-  return Object.values(bookFiles).map((book: any) => ({
+  const files = import.meta.glob("../../content/books/*.md", { eager: true });
+  return Object.values(files).map((book: any) => ({
     params: { slug: book.frontmatter.slug },
-    props: {
-      book: book.frontmatter,
-      content: book.default,
-    },
+    props: { book: book.frontmatter, Content: book.Content },
   }));
 }
 
-const { book, content: Content } = Astro.props;
+const { book, Content } = Astro.props;
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  name: book.title,
-  description: book.seo_description,
-  image: book.cover,
-  learningResourceType: "Quiet Book",
-  educationalLevel: book.difficulty,
-  about: book.theme,
-  keywords: book.keywords,
-};
+const bookFiles = import.meta.glob("../../content/books/*.md", { eager: true });
+const relatedBooks = Object.values(bookFiles)
+  .map((b: any) => b.frontmatter)
+  .filter((b) => b.theme === book.theme && b.slug !== book.slug)
+  .slice(0, 3);
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: (book.faq || []).map((f: any) => ({
-    "@type": "Question",
-    name: f.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: f.answer,
-    },
-  })),
-};
+const activities = [
+  { name: "Dinosaur Matching", difficulty: "Easy", description: "Pair dinosaurs with their shadow silhouettes to develop visual discrimination and shape recognition.", icon: "grid_view" },
+  { name: "Fossil Puzzle", difficulty: "Medium", description: "Assemble skeletal remains to learn basic anatomy and problem-solving through spatial reasoning.", icon: "psychology" },
+  { name: "Dinosaur Sorting", difficulty: "Medium", description: "Categorize dinosaurs by diet or size to build foundational logic skills.", icon: "sort_by_alpha" },
+];
+
+const skills = [
+  { name: "Science", description: "Introducing prehistoric concepts and classification systems.", icon: "science" },
+  { name: "Fine Motor", description: "Precision movements through cutting, matching, and velcro manipulation.", icon: "back_hand" },
+  { name: "Logic", description: "Critical thinking and patterns through sequential activity pages.", icon: "lightbulb" },
+];
+
+const materials = [
+  { name: "Printer", icon: "print" },
+  { name: "Heavy Paper", icon: "description" },
+  { name: "Scissors", icon: "content_cut" },
+  { name: "Laminator", icon: "layers", optional: true },
+  { name: "Velcro Dots", icon: "radio_button_checked" },
+];
+
+const faqs = [
+  { q: "How many pages are in the PDF?", a: `The full adventure includes ${book.pages} printable activity pages, plus cut-out pieces where needed.` },
+  { q: "Is lamination required?", a: "While not strictly required, lamination significantly extends the life of the book and allows for the use of velcro dots, which makes the book much more tactile and durable for repeated play." },
+  { q: "What age range is this suitable for?", a: "The activities are tailored for children aged 3 to 6 years old, covering a range of simple matching to more complex sorting tasks." },
+];
 ---
 
 <Layout
-  title={book.seo_title}
-  description={book.seo_description}
-  image={book.cover}
+  title={`${book.title} | Quiet Library`}
+  description={book.description}
 >
   <Header />
 
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-
-  <main class="bg-surface pt-8 pb-20">
-    <section class="container-main">
-      <!-- Breadcrumb -->
-      <nav class="text-body-sm text-on-surface-variant py-4">
-        <a href="/" class="hover:text-primary transition-colors">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/quiet-books" class="hover:text-primary transition-colors">Quiet Books</a>
-        <span class="mx-2">/</span>
-        <span class="text-on-surface">{book.title}</span>
-      </nav>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start mt-8">
-        <!-- Cover -->
-        <div class="aspect-[4/3] bg-surface-container rounded-2xl soft-bloom overflow-hidden">
+  <main class="pt-24 pb-section-gap">
+    <!-- Hero Section -->
+    <section class="container-main grid grid-cols-1 md:grid-cols-12 gap-gutter py-section-gap items-center">
+      <div class="md:col-span-6 lg:col-span-7">
+        <div class="aspect-square bg-surface-container-low rounded-3xl overflow-hidden soft-bloom">
           <img
             src={book.cover}
-            alt={`${book.title} printable cover`}
+            alt={`${book.title} cover`}
             class="w-full h-full object-cover"
-            onerror="this.src='/books/placeholders/cover.webp'"
+            onerror="this.src='/images/placeholder.webp'"
           />
         </div>
+      </div>
 
-        <!-- Info -->
-        <div class="space-y-6">
-          <h1 class="font-display text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">
-            {book.title}
-          </h1>
+      <div class="md:col-span-6 lg:col-span-5 flex flex-col gap-6">
+        <div class="flex gap-2">
+          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-label-sm font-label-sm">New Release</span>
+          <span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded-full text-label-sm font-label-sm">Free PDF</span>
+        </div>
 
-          <p class="text-body-lg text-on-surface-variant">
-            A printable activity book for {book.theme.toLowerCase()} lovers. {book.pages} pages of hands-on learning.
-          </p>
+        <h1 class="font-display text-headline-lg text-on-surface">{book.title}</h1>
+        <p class="font-body text-body-lg text-on-surface-variant">{book.description}</p>
 
-          <!-- Quick Facts -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div class="bg-surface-container-low rounded-xl p-4">
-              <p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Theme</p>
-              <p class="font-display text-body-lg font-bold text-on-surface">{book.theme}</p>
-            </div>
-            <div class="bg-surface-container-low rounded-xl p-4">
-              <p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Difficulty</p>
-              <p class="font-display text-body-lg font-bold text-on-surface">{book.difficulty}</p>
-            </div>
-            <div class="bg-surface-container-low rounded-xl p-4">
-              <p class="text-label-sm text-on-surface-variant uppercase tracking-wider">Pages</p>
-              <p class="font-display text-body-lg font-bold text-on-surface">{book.pages}</p>
+        <!-- Information Grid -->
+        <div class="grid grid-cols-2 gap-4 my-4">
+          <div class="bg-surface-container p-4 rounded-xl flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">potted_plant</span>
+            <div>
+              <p class="text-label-sm font-label-sm opacity-60">Theme</p>
+              <p class="font-label-md text-label-md">{book.theme}</p>
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-2">
-            {book.skills.map((skill: string) => (
-              <span class="chip-primary">{skill}</span>
-            ))}
+          <div class="bg-surface-container p-4 rounded-xl flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">bar_chart</span>
+            <div>
+              <p class="text-label-sm font-label-sm opacity-60">Difficulty</p>
+              <p class="font-label-md text-label-md">{book.difficulty}</p>
+            </div>
           </div>
 
-          <div class="flex flex-wrap gap-4 pt-4">
-            <Button href={book.pdf} variant="primary" size="lg">
-              Download PDF
-            </Button>
-            <Button href={`/${book.theme.toLowerCase()}-quiet-books`} variant="secondary" size="lg">
-              More {book.theme} Books
-            </Button>
+          <div class="bg-surface-container p-4 rounded-xl flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">extension</span>
+            <div>
+              <p class="text-label-sm font-label-sm opacity-60">Skills</p>
+              <p class="font-label-md text-label-md">{book.skills.slice(0, 2).join(' & ')}</p>
+            </div>
+          </div>
+
+          <div class="bg-surface-container p-4 rounded-xl flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary">auto_stories</span>
+            <div>
+              <p class="text-label-sm font-label-sm opacity-60">Pages</p>
+              <p class="font-label-md text-label-md">{book.pages} Activities</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Body -->
-      <div class="max-w-3xl mt-16 prose-body text-on-surface">
-        <Content />
+        <a
+          href={book.downloadUrl || "#"}
+          class="w-full py-4 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group"
+        >
+          <span class="material-symbols-outlined">download</span>
+          Download Free PDF
+        </a>
       </div>
+    </section>
 
-      <!-- Materials -->
-      <div class="mt-12 bg-surface-container-low rounded-2xl p-6 md:p-8">
-        <h2 class="font-display text-headline-md font-bold text-on-surface mb-4">Materials Needed</h2>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {book.materials.map((m: string) => (
-            <li class="flex items-center gap-3 text-body-md text-on-surface-variant">
-              <span class="w-2 h-2 rounded-full bg-primary"></span>
-              {m}
-            </li>
+    <!-- Preview Gallery -->
+    <section class="bg-surface-container-low py-section-gap">
+      <div class="container-main">
+        <div class="flex justify-between items-end mb-10">
+          <div>
+            <h2 class="font-display text-headline-md text-headline-md mb-2">Preview Gallery</h2>
+            <p class="text-on-surface-variant">See inside the pages of this adventure.</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-bright transition-colors">
+              <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-bright transition-colors">
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+          {['/images/book-detail/preview1.jpg', '/images/book-detail/preview2.jpg', '/images/book-detail/preview3.jpg', '/images/book-detail/preview4.jpg'].map((src, idx) => (
+            <div class="aspect-[3/4] bg-surface-container-highest rounded-2xl overflow-hidden soft-bloom">
+              <img src={src} alt={`Preview ${idx + 1}`} class="w-full h-full object-cover" loading="lazy" onerror="this.src='/images/placeholder.webp'" />
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
+    </section>
 
-      <!-- FAQ -->
-      <div class="mt-16 max-w-3xl">
-        <h2 class="font-display text-headline-md font-bold text-on-surface mb-6">Frequently Asked Questions</h2>
-        <FAQ items={book.faq || []} />
+    <!-- The Montessori Approach -->
+    <section class="py-section-gap max-w-3xl mx-auto px-4 text-center">
+      <h2 class="font-display text-headline-md text-headline-md mb-8">The Montessori Approach</h2>
+      <div class="space-y-6 text-on-surface-variant font-body text-body-lg">
+        <p>The {book.title} is more than just a coloring activity. Inspired by Scandinavian minimalism and the Montessori "prepared environment" philosophy, every page is designed to isolate specific skills—from fine motor pincer grips to complex logical sorting.</p>
+        <p>By providing children with tactile, movable parts, we transform abstract concepts into concrete, hands-on learning experiences. The muted palette ensures the child isn't overstimulated, allowing them to focus entirely on the educational task at hand.</p>
+      </div>
+    </section>
+
+    <!-- Activities Included -->
+    <section class="container-main py-section-gap">
+      <h2 class="font-display text-headline-md text-headline-md mb-10 text-center">Activities Included</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+        {activities.map((a, i) => (
+          <div class="bg-surface-container-lowest p-8 rounded-3xl soft-bloom border border-outline-variant/20">
+            <div class:list={["w-16 h-16 rounded-2xl flex items-center justify-center mb-6", i === 1 ? "bg-secondary-fixed" : "bg-primary-fixed"]}>
+              <span class:list={["material-symbols-outlined text-3xl", i === 1 ? "text-secondary" : "text-primary"]}>{a.icon}</span>
+            </div>
+            <h3 class="font-display text-headline-md text-headline-md mb-2">{a.name}</h3>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container rounded-full text-label-sm">{a.difficulty}</span>
+            </div>
+            <p class="text-on-surface-variant font-body text-body-md">{a.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Skills Developed -->
+    <section class="bg-primary text-on-primary py-section-gap overflow-hidden relative">
+      <div class="container-main relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="font-display text-headline-lg text-headline-lg text-white mb-4">Nurturing Growth</h2>
+          <p class="text-primary-fixed opacity-90 max-w-xl mx-auto">This resource targets key developmental milestones during the early years.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {skills.map((s) => (
+            <div class="text-center">
+              <span class="material-symbols-outlined text-6xl mb-4 text-primary-fixed">{s.icon}</span>
+              <h4 class="font-display text-headline-md text-headline-md mb-2">{s.name}</h4>
+              <p class="opacity-80">{s.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-black/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
+    </section>
+
+    <!-- Preparation Guide -->
+    <section class="container-main py-section-gap">
+      <h2 class="font-display text-headline-md text-headline-md mb-10 text-center">Preparation Guide</h2>
+      <div class="flex flex-wrap justify-center gap-12 items-start">
+        {materials.map((m) => (
+          <div class="flex flex-col items-center w-32 group">
+            <div class="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
+              <span class="material-symbols-outlined text-primary text-3xl">{m.icon}</span>
+            </div>
+            <p class="font-label-md text-label-md">{m.name}</p>
+            {m.optional && <span class="text-label-sm opacity-60">Optional</span>}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="max-w-3xl mx-auto px-4 py-section-gap">
+      <h2 class="font-display text-headline-md text-headline-md mb-10 text-center">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <details class="group bg-surface-container-low rounded-2xl p-1 border border-outline-variant/30">
+            <summary class="list-none p-5 flex justify-between items-center cursor-pointer font-label-md text-label-md text-on-surface">
+              {faq.q}
+              <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 text-on-surface-variant font-body text-body-md">
+              {faq.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Themes -->
+    <section class="container-main py-section-gap border-t border-outline-variant/30">
+      <h2 class="font-display text-headline-md text-headline-md mb-10">Related Themes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+        {relatedBooks.length > 0 ? relatedBooks.map((b) => (
+          <a href={`/quiet-book/${b.slug}`} class="group">
+            <div class="aspect-square bg-surface-container-high rounded-3xl overflow-hidden mb-4 soft-bloom">
+              <img src={b.cover} alt={b.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='/images/placeholder.webp'" />
+            </div>
+            <h4 class="font-label-md text-label-md group-hover:text-primary transition-colors">{b.title}</h4>
+          </a>
+        )) : (
+          <div class="col-span-3 text-center text-on-surface-variant">Explore more books in the <a href="/quiet-books" class="text-primary underline">Library</a>.</div>
+        )}
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <script>
+    // Header shadow on scroll
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (header) {
+        if (window.scrollY > 20) header.classList.add('shadow-md');
+        else header.classList.remove('shadow-md');
+      }
+    });
+  </script>
 </Layout>

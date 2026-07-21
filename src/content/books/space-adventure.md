@@ -1,14 +1,14 @@
 ---
-title: "Space Adventure Quiet Book"
+title: "Space Explorer"
 slug: "space-adventure"
 theme: "Space"
-difficulty: "Medium"
+difficulty: "Advanced"
 skills: ["Logic", "Matching", "Science"]
 activity_types: ["Matching", "Puzzle", "Sequencing"]
 pages: 32
 recommended_age: "5-9"
 format: "Printable PDF"
-cover: "/books/space-adventure/cover.webp"
+cover: "/images/books/space.jpg"
 pdf: "/books/space-adventure/space-adventure.pdf"
 preview:
   - "/books/space-adventure/page01.webp"
@@ -22,7 +22,7 @@ materials:
   - "Paper"
   - "Scissors"
   - "Velcro dots"
-seo_title: "Space Adventure Quiet Book Printable - Free PDF Activity"
+seo_title: "Space Explorer"
 seo_description: "Free space quiet book printable for kids. Build rockets, match planets and go on a hands-on space mission."
 keywords:
   - "space quiet book printable"

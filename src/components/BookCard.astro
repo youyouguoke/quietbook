@@ -6,48 +6,60 @@ interface Props {
   pages: number;
   cover: string;
   slug: string;
+  description?: string;
 }
 
-const { title, difficulty, skills, pages, cover, slug } = Astro.props;
+const { title, difficulty, skills, pages, cover, slug, description } = Astro.props;
+
+const difficultyColors: Record<string, string> = {
+  Easy: "bg-primary-container text-on-primary-container",
+  Medium: "bg-tertiary-container text-on-tertiary-container",
+  Advanced: "bg-secondary-container text-on-secondary-container",
+};
 ---
 
 <a
   href={`/quiet-book/${slug}`}
-  class="group block bg-surface-container-lowest rounded-xl soft-bloom overflow-hidden border border-outline-variant/20"
+  class="group block bg-surface-container-lowest rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-2 soft-bloom"
 >
-  <div class="aspect-[4/3] bg-surface-container overflow-hidden">
+  <div class="relative aspect-[4/5] bg-surface-container-low">
     <img
       src={cover}
       alt={`${title} cover`}
-      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      class="w-full h-full object-cover"
       loading="lazy"
       decoding="async"
-      onerror="this.src='/books/placeholders/cover.webp'"
+      onerror="this.src='/images/placeholder.webp'"
     />
+    <div class="absolute top-4 left-4">
+      <span class:list={["px-3 py-1 rounded-full text-label-sm font-label-sm", difficultyColors[difficulty] || "bg-primary-container text-on-primary-container"]}>
+        {difficulty}
+      </span>
+    </div>
   </div>
 
-  <div class="p-5 md:p-6 space-y-3">
-    <h3 class="font-display text-headline-sm font-bold text-on-surface group-hover:text-primary transition-colors line-clamp-2">
+  <div class="p-6">
+    <h3 class="font-display text-headline-md text-on-surface mb-2">
       {title}
     </h3>
 
-    <div class="flex flex-wrap items-center gap-2">
-      <span class="chip-primary">{difficulty}</span>
-      <span class="text-body-sm text-on-surface-variant">{pages} Pages</span>
-    </div>
-
-    <div class="flex flex-wrap gap-2">
-      {skills.map((skill) => (
-        <span class="chip">{skill}</span>
+    <div class="flex flex-wrap gap-2 mb-4">
+      {skills.slice(0, 3).map((skill) => (
+        <span class="bg-secondary-container/30 text-on-secondary-container px-2 py-0.5 rounded-md text-label-sm font-label-sm">
+          {skill}
+        </span>
       ))}
     </div>
 
-    <span class="inline-flex items-center gap-2 text-primary font-body-md font-medium group-hover:gap-3 transition-all">
-      View Book
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14" />
-        <path d="m12 5 7 7-7 7" />
-      </svg>
-    </span>
+    <p class="text-on-surface-variant text-body-md line-clamp-2 mb-4">
+      {description || `A printable ${title.toLowerCase()} quiet book for hands-on learning.`}
+    </p>
+
+    <div class="flex items-center justify-between mt-auto">
+      <span class="text-label-sm text-on-surface-variant">{pages} Pages</span>
+      <span class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">
+        View Book
+      </span>
+    </div>
   </div>
 </a>
